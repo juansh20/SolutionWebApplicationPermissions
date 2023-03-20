@@ -37,7 +37,7 @@ namespace WebApplicationPermissions.Services
                 Id = Guid.NewGuid().ToString(),
                 OperationName = "request"
             };
-          //  await _kafkaProducerService.SendMessageAsync("permission-topic", message);
+            await _kafkaProducerService.SendMessageAsync("permission-topic", message);
 
             return permission;
         }
@@ -58,7 +58,7 @@ namespace WebApplicationPermissions.Services
                 Id = Guid.NewGuid().ToString(),
                 OperationName = "modify"
             };
-            //await _kafkaProducerService.SendMessageAsync("permission-topic", message);
+            await _kafkaProducerService.SendMessageAsync("permission-topic", message);
 
             return await Task.FromResult(permission);
         }
@@ -72,7 +72,7 @@ namespace WebApplicationPermissions.Services
                 Id = Guid.NewGuid().ToString(),
                 OperationName = "get"
             };
-            //await _kafkaProducerService.SendMessageAsync("permission-topic", message);
+            await _kafkaProducerService.SendMessageAsync("permission-topic", message);
 
             return permissions;
         }

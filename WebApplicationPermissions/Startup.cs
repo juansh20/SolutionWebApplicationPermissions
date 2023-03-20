@@ -17,6 +17,7 @@ namespace WebApplicationPermissions
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -47,6 +48,29 @@ namespace WebApplicationPermissions
             services.AddControllers();
 
             services.AddSwaggerGen();
+
+            //CORS
+            string strUrlcors = Configuration.GetValue<string>("UrlsCors");
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    // loads the origins from AppSettings
+                    foreach (var origin in strUrlcors.Split(','))
+                    {
+                        builder.WithOrigins(origin);
+                    }
+
+                    // builder.AllowAnyOrigin()
+                    builder.AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .AllowCredentials();
+                });
+            });
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,7 +90,7 @@ namespace WebApplicationPermissions
             }
 
             app.UseRouting();
-
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
