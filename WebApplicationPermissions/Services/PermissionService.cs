@@ -60,7 +60,7 @@ namespace WebApplicationPermissions.Services
             };
             //await _kafkaProducerService.SendMessageAsync("permission-topic", message);
 
-            return permission;
+            return await Task.FromResult(permission);
         }
 
         public async Task<IEnumerable<Permission>> GetPermissions()
